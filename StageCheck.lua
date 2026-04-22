@@ -210,3 +210,26 @@ function Story.JoinHost(hostName)
 end
 
 return Story
+
+-- [[ JOINER LOGIC: FIX JOIN REMOTE ]]
+function Story.JoinHost(hostName)
+    -- ตรวจสอบว่ามี Object ห้องของ Host ใน PlayRoom หรือยัง
+    local roomPath = PlayRoomFolder:FindFirstChild(hostName)
+    
+    if roomPath then
+        -- ใช้โครงสร้าง args ตามที่คุณระบุมาเป๊ะๆ
+        local args = {
+            "Join-Room",
+            {
+                Room = roomPath
+            }
+        }
+        
+        -- ยิง Remote ไปที่ Event
+        Remote:FireServer(unpack(args))
+        
+        print("✅ [JOINER] ยิง Remote Join-Room ไปที่ห้อง: " .. hostName)
+        return true
+    end
+    return false
+end
